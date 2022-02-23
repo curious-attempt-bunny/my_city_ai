@@ -1,0 +1,210 @@
+After 200 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X#---...XXX
+-#--..t.rXX
+r#-.....XXX
+-#....rXXXX
+[3, 4, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (46.535)
+
+After 600 rollouts:Turn 2:
+--t--.....r
+r-#--...t.X
+X-#-......X
+X-#-..t...r
+XX#......XX
+Xr---...rXX
+X----...XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[3, 4, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (48.4)
+
+After 1400 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---.#t...r
+XX-..#...XX
+Xr---#..rXX
+X----#..XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[3, 4, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (48.855714285714285)
+
+After 3000 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X####...XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[3, 4, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (49.418)
+
+After 200 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X----...XXX
+-##-..t.rXX
+r##.....XXX
+--....rXXXX
+[4, 3, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (46.475)
+
+After 600 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-..##..XX
+Xr---##.rXX
+X----...XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[4, 3, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (48.77333333333333)
+
+After 1400 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---##.rXX
+X----##.XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[4, 3, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (49.503571428571426)
+
+After 200 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X----...XXX
+----.###rXX
+r--...#.XXX
+--....rXXXX
+[4, 4, 3, 4, 4, 4, 4]
+score delta: 1
+^^^ BEST (45.365)
+
+After 3000 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X####...XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[3, 4, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (49.418)
+
+After 1400 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---##.rXX
+X----##.XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[4, 3, 4, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (49.503571428571426)
+
+After 12600 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X----...XXX
+-###..t.rXX
+r-#.....XXX
+--....rXXXX
+[4, 4, 3, 4, 4, 4, 4]
+score delta: 4
+^^^ BEST (50.344365079365076)
+
+After 3000 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---##t...r
+XX-##....XX
+Xr---...rXX
+X----...XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[4, 4, 4, 3, 4, 4, 4]
+score delta: 4
+^^^ BEST (49.361333333333334)
+
+After 6200 rollouts:Turn 2:
+--t--##...r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X----...XXX
+----..t.rXX
+r--.....XXX
+--....rXXXX
+[4, 4, 4, 4, 3, 4, 4]
+score delta: 2
+^^^ BEST (48.071612903225805)
+
+After 12600 rollouts:Turn 2:
+--t--.....r
+r----...t.X
+X---......X
+X---..t...r
+XX-......XX
+Xr---...rXX
+X##--...XXX
+--#-..t.rXX
+r##.....XXX
+--....rXXXX
+[4, 4, 4, 4, 4, 3, 4]
+score delta: 5
+^^^ BEST (50.30468253968254)
+

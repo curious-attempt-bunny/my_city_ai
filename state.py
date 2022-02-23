@@ -16,8 +16,21 @@ class State:
             self.turn_number = turn_number
             self.score_delta = score_delta
 
+    def key(self):
+        result = []
+        for count in self.pieces_remaining:
+            result.append(str(count))
+        result.append('|')
+        for row in self.cells:
+            for cell in row:
+                if cell == '#':
+                    result.append('1')
+                else:
+                    result.append('0')
+        return ''.join(result)
+
     def visualize(self):
-        return f"Turn {self.turn_number}:\n"+fixtures.visualize(self.cells)+"\n"+str(self.pieces_remaining)+f"\nscore delta: {self.score_delta}"+"\n"+fixtures.visualize(self.legal_moves)
+        return f"Turn {self.turn_number}:\n"+fixtures.visualize(self.cells)+"\n"+str(self.pieces_remaining)+f"\nscore delta: {self.score_delta}"
 
     def is_end(self):
         return sum(self.pieces_remaining) == 0
@@ -34,9 +47,6 @@ class State:
 
     def copy(self):
         state = State(self.cells, self.legal_moves, self.pieces_remaining, self.turn_number, self.score_delta)
-        state.turn_number = state.turn_number + 1
-        if self.turn_number == 1:
-            state.legal_moves = [[0 for x in range(fixtures.WIDTH)] for y in range(fixtures.HEIGHT)]
         return state
 
     def is_legal_place(self, piece, x, y):
@@ -59,13 +69,16 @@ class State:
                         return False
                     placed_on.add(self.cells[y2][x2])
 
-                if self.legal_moves[y2][x2] == 1:
-                    is_legal = True
+                    if self.legal_moves[y2][x2] == 1:
+                        is_legal = True
 
         return is_legal
 
     def place(self, piece, x, y, piece_index):
-        state = self.copy()
+        state = self
+        if self.turn_number == 1:
+            state.legal_moves = [[0 for x in range(fixtures.WIDTH)] for y in range(fixtures.HEIGHT)]
+        state.turn_number = state.turn_number + 1
         
         for yd in range(len(piece)):
             for xd in range(len(piece[0])):
@@ -92,35 +105,39 @@ class State:
         return state
 
     def skip_placement(self, piece_index):
-        state = self.copy()
+        state = self
         state.score_delta -= 1
         state.pieces_remaining[piece_index] -= 1
 
+        state.turn_number = state.turn_number + 1
+        if self.turn_number == 1:
+            state.legal_moves = [[0 for x in range(fixtures.WIDTH)] for y in range(fixtures.HEIGHT)]
+
         return state
 
-state = State()
+    def rollout(self, piece, x, y, piece_index, n):
+        representative = self.copy()
+        representative = representative.place(piece, x, y, piece_index)
+        total = 0
+        for i in range(n):
+            state = representative.copy()
+            while not state.is_end():
+                next = state.random_piece()
+                legal = []
+                for piece in fixtures.PIECE_ROTATIONS[next]:
+                    for y in range(fixtures.HEIGHT):
+                        for x in range(fixtures.WIDTH):
+                            if state.is_legal_place(piece, x, y):
+                                legal.append((piece, x, y))
+                
+                if len(legal) == 0:
+                    state = state.skip_placement(next)
+                else:
+                    piece, x, y = legal[random.randint(0, len(legal)-1)]
+                    state = state.place(piece, x, y, next)
 
-while not state.is_end():
-    print(state.visualize())
-    print()
-    
-    next = state.random_piece()
-    print("Must place:")
-    print(fixtures.visualize(fixtures.PIECE_ROTATIONS[next][0]))
-    print()
+            total += state.score_delta
 
-    best_state = None
-    for piece in fixtures.PIECE_ROTATIONS[next]:
-        for y in range(fixtures.HEIGHT):
-            for x in range(fixtures.WIDTH):
-                if state.is_legal_place(piece, x, y):
-                    next_state = state.place(piece, x, y, next)
+        representative.score_delta = total / n
 
-                    if best_state is None or next_state.score_delta > best_state.score_delta:
-                        best_state = next_state
-
-    if best_state is None:
-        state = state.skip_placement(next)
-
-    state = best_state
-    
+        return representative
