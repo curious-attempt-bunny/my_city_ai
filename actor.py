@@ -1,12 +1,14 @@
-from dataclasses import dataclass
 import json
 import os.path
 import sys
 
-from typing import Optional
+from dataclasses import dataclass
+from multiprocessing import Pool
+from typing import Optional, Any
 
 import fixtures
 
+from rollout import Rollout
 from state import State
 
 TABLE = {}
@@ -51,10 +53,23 @@ class TableActor:
 
                 c = len(candidates)
                 t = 0
+                passes = 0
                 while c > 1:
                     t += c
                     c = int(c/2)
+                    passes += 1
                 print(''.join('-'*t))
+
+                scale_sum = 0
+                scale = 1
+                for i in range(passes):
+                    scale *= 2
+                    scale_sum += scale
+
+                if scale_sum > 0:
+                    depth = int(5000/scale_sum) # int(5000/scale)
+                else:
+                    depth = 10
 
                 while len(candidates) > 1:
                     best_move = None
@@ -62,21 +77,19 @@ class TableActor:
                     depth *= 2
                     n += depth
                     # print(f'Rollouts {n} -- {len(candidates)} moves remaining')
-                    # print('_'*len(candidates))
-                    for candidate in candidates:
+                    
+                    with Pool(7) as p:
+                        rollouts = [Rollout(state, candidate, piece_index, depth) for candidate in candidates]
+                        representatives = p.map(Rollout.rollout, rollouts)
+                    
+                    for candidate, representative in zip(candidates, representatives):
                         piece_rotation, x, y = candidate
                         piece = fixtures.PIECE_ROTATIONS[piece_index][piece_rotation]
-                        representative = state.rollout(piece, x, y, piece_index, depth)
                         key = f'{piece_rotation}/{x}/{y}'
                         if not key in score_delta_total:
                             score_delta_total[key] = 0
                         score_delta_total[key] += representative.score_delta * depth
                         representative.score_delta = score_delta_total[key] / n
-                                        
-                        # print(f"Place at {x},{y} scores {representative.score_delta}")
-                        # print(fixtures.visualize(piece))
-                        print('.', end='')
-                        sys.stdout.flush()
 
                         if best_move is None or representative.score_delta > best_move[0]:
                             best_move = (representative.score_delta, piece_rotation, x, y)
@@ -84,19 +97,6 @@ class TableActor:
                         if worst_move is None or representative.score_delta < worst_move[0]:
                             worst_move = (representative.score_delta, piece_rotation, x, y)
                             # print("^^^ WORST")
-                    # print()
-
-                    # score, piece_rotation, x, y = best_move
-                    # piece = fixtures.PIECE_ROTATIONS[piece_index][piece_rotation]
-                    # state = State().place(piece, x, y, piece_index)
-                    # print(state.visualize())
-                    # print(f'^^^ BEST ({score})')
-
-                    # score, piece_rotation, x, y = worst_move
-                    # piece = fixtures.PIECE_ROTATIONS[piece_index][piece_rotation]
-                    # state = State().place(piece, x, y, piece_index)
-                    # print(state.visualize())
-                    # print(f'^^^ WORST ({score})')
 
                     candidates = sorted(candidates, key=lambda candidate: -score_delta_total[f'{candidate[0]}/{candidate[1]}/{candidate[2]}'])
                     candidates = candidates[0:int(len(candidates)/2)]

@@ -6,7 +6,7 @@ class State:
         if cells is None:
             self.cells = [row.copy() for row in fixtures.CELLS]
             self.legal_moves = [row.copy() for row in fixtures.LEGAL_FIRST_PLAY]
-            self.pieces_remaining = [4] * len(fixtures.PIECE_ROTATIONS)
+            self.pieces_remaining = [3] * len(fixtures.PIECE_ROTATIONS)
             self.turn_number = 1
             self.score_delta = 0 
         else:
